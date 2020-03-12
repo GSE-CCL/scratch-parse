@@ -12,7 +12,9 @@ def get_project_ids(arguments):
     return set(projects)
 
 def blockify(jsonfiles, output_directory=os.getcwd(), file_name=None):
+    """Given project IDs, loads the JSONs to list the blocks"""
     for jsonfile in jsonfiles:
+        print("jsonfile", jsonfile)
         block_dict = {}
         block_list = []
         with open(jsonfile +'.json') as f:
@@ -25,10 +27,13 @@ def blockify(jsonfiles, output_directory=os.getcwd(), file_name=None):
                         value = names["name"]
                         if target["blocks"][block]["opcode"] == value:
                             if names["label"] not in block_dict.keys():
-                                block_list.append(names["label"])
+                                block_list.append(names["label"] + " \n")
                                 block_dict[names["label"]] = 1
                             else:
-                                block_dict[names["label"]] += 1       
+                                block_dict[names["label"]] += 1
+        block_file = open(jsonfile + "_blocks.txt", "w")
+        block_file.writelines(block_list)
+        block_file.close()       
     return block_list, block_dict      
 
 def get_arguments():
@@ -36,10 +41,10 @@ def get_arguments():
 
     # Arguments related to input
     inputs = parser.add_mutually_exclusive_group(required=True)
-    #inputs.add_argument("-s", dest="studio", nargs="*", help="Studio ID. Will scrape all projects from the studio with the given ID.")
+    inputs.add_argument("-s", dest="studio", nargs="*", help="Studio ID. Will list blocks for all projects from the studio with the given ID.")
     inputs.add_argument("-p", dest="project", nargs="*", help="Project ID. Will list blocks for one project for each ID provided.")
-    #inputs.add_argument("-f", dest="studio_list", nargs="*", help="File name for a line-separated list of studio URLs (or IDs). Will scrape all projects in all studios.")
-    #inputs.add_argument("-g", dest="project_list", nargs="*", help="File name for a line-separated list of project URLs (or IDs). Will scrape all projects.")
+    inputs.add_argument("-f", dest="studio_list", nargs="*", help="File name for a line-separated list of studio URLs (or IDs). Will list blocks for all projects in all studios.")
+    inputs.add_argument("-g", dest="project_list", nargs="*", help="File name for a line-separated list of project URLs (or IDs). Will list blocks for all projects.")
 
     # Arguments related to output
     parser.add_argument("-d", dest="output_directory", help="Output directory. Will save output to this directory, and create the directory if doesn’t exist.")
