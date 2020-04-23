@@ -1,5 +1,7 @@
 # Scratch Parse
-Lists and counts the blocks of a given Scratch 3 Project JSON file, developed for the Creative Computing Lab at the Harvard Graduate School of Education. 
+Lists and counts the blocks of a given Scratch 3 Project JSON file, developed for the Creative Computing Lab at the Harvard Graduate School of Education.
+
+For more features, use the new and improved CCL Scratch Tools package here: https://github.com/GSE-CCL/scratch-tools.
 
 ## Setup
 1. Make sure you've installed Python 3.
